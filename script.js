@@ -5,7 +5,7 @@
 
 var tour;
 var devicesUrl = {"mobile":"script_mobile.js?v=1750094154980","ipad":"script_general.js?v=1750094154980","general":"script_general.js?v=1750094154980"};
-
+console.log
 (function()
 {
     var deviceType = ['general'];
