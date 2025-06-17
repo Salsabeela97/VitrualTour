@@ -90,7 +90,35 @@ function onVirtualTourInit()
 
 function onVirtualTourLoaded()
 {
-    disposePreloader();
+    console.log("🎉 الجولة اشتغلت... دلوقتي بنحمل الموديل 3D من Google Drive");
+
+    import('https://unpkg.com/three@0.157.0/examples/jsm/loaders/GLTFLoader.js').then(({ GLTFLoader }) => {
+        const loader = new GLTFLoader();
+
+        // ID الخاص بملف .glb من Google Drive
+        const driveFileId = '1ttu5a_MuYb4Seet8VdcUofIn_JJCGyIU';
+
+        loader.load(
+            `https://drive.google.com/uc?export=download&id=${driveFileId}`,
+            function (gltf) {
+                // إضافة الموديل للمشهد
+                let scene;
+                try {
+                    scene = tour.renderer.threeScene; // لو TDV بيدعمها
+                } catch (e) {
+                    console.error("❌ لم يتمكن من الوصول إلى المشهد ثلاثي الأبعاد داخل TDV");
+                    return;
+                }
+
+                scene.add(gltf.scene);
+                console.log("✅ موديل GLB اتحمل واتضاف بنجاح");
+            },
+            undefined,
+            function (error) {
+                console.error("❌ حصلت مشكلة أثناء تحميل الـ GLB:", error);
+            }
+        );
+    });
 }
 
 function onVirtualTourEnded()
